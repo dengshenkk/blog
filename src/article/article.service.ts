@@ -4,16 +4,23 @@ import { UpdateArticleDto } from './dto/update-article.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Article } from './entities/article.entity';
 import { Repository } from 'typeorm';
+import { TagService } from '../tag/tag.service';
 
 @Injectable()
 export class ArticleService {
   constructor(
     @InjectRepository(Article)
     private readonly articleRepository: Repository<Article>,
+    private readonly tagService: TagService,
   ) {}
 
   async create(createArticleDto: CreateArticleDto) {
+    const tags = [];
+    for (const tag of createArticleDto.tags) {
+      await tags.push(this.tagService.findOne((tag)));
+    }
     console.log('createArticleDto: ', createArticleDto);
+    createArticleDto.tags = tags;
     return await this.articleRepository.save(
       this.articleRepository.create(createArticleDto),
     );
