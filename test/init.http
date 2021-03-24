@@ -34,10 +34,9 @@ Content-Type: application/json
   "status": 1,
   "summary": "一个小结",
   "coverURL": "一张好图",
-  "category": 2,
+  "category": 1,
   "tags": [
-    1,
-    2
+    1,2
   ]
 }
 
