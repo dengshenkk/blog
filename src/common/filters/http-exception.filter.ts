@@ -13,7 +13,7 @@ export class HttpExceptionFilter<T> implements ExceptionFilter {
       message: exception.response,
       date: dayjs().format('YYYY-MM-DD HH:mm:ss'),
       path: request.url,
-      body: request.body,
+      body: Object.keys(request.body).length ? request.body : request.params,
     });
   }
 }

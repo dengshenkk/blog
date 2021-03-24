@@ -19,11 +19,7 @@ export class ArticleController {
 
   @Post()
   create(@Body() createArticleDto: CreateArticleDto) {
-    try {
-      return this.articleService.create(createArticleDto);
-    } catch (e) {
-      console.debug(`article.controller.ts:25 create, error: ${e}`);
-    }
+    return this.articleService.create(createArticleDto);
   }
 
   @Get()

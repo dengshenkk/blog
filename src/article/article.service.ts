@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { TagService } from '../tag/tag.service';
 import { CategoryService } from '../category/category.service';
 import { UpdateArticleDto } from './dto/update-article.dto';
+import { ArticleVO } from './vo/articleVO';
 
 @Injectable()
 export class ArticleService {
@@ -20,25 +21,23 @@ export class ArticleService {
     const tags = [];
     for (const tag of createArticleDto.tags) {
       const tagItem = await this.tagService.findOne(tag);
-      if (!tagItem) {
-        throw new HttpException(`该标签id[${tag}]不存在`, 400);
-      }
       tags.push(tagItem);
     }
-
     const category = await this.categoryService.findOne(
       createArticleDto.category,
     );
-    const article = new Article();
-    article.category = category;
-    article.tags = tags;
-    article.content = createArticleDto.content;
-    article.coverURL = createArticleDto.coverURL;
-    article.status = createArticleDto.status;
-    article.summary = createArticleDto.summary;
-    article.title = createArticleDto.title;
+    const { title, content, status, summary, coverURL } = createArticleDto;
+    const articleVO = new ArticleVO(
+      tags,
+      category,
+      title,
+      content,
+      status,
+      summary,
+      coverURL,
+    );
     return await this.articleRepository.save(
-      this.articleRepository.create(article),
+      this.articleRepository.create(articleVO),
     );
   }
 
@@ -56,7 +55,11 @@ export class ArticleService {
   }
 
   async findOne(id: number) {
-    return await this.articleRepository.findOne(id);
+    const article = await this.articleRepository.findOne(id);
+    if (!article) {
+      throw HttpException;
+    }
+    return article;
   }
 
   async update(id: number, updateArticleDto: UpdateArticleDto) {
