@@ -1,6 +1,6 @@
 import { Article } from 'src/article/entities/article.entity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { BasicEntity } from '../../basic/entities/basic.entity';
+import { BasicEntity } from '../../common/entities/basic.entity';
 
 export enum CommentStatus {
   Verifying = 1, // 审核中

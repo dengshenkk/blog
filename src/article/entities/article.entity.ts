@@ -9,7 +9,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Comment } from '../../comment/entities/comment.entity';
-import { BasicEntity } from '../../basic/entities/basic.entity';
+import { BasicEntity } from '../../common/entities/basic.entity';
 
 export enum ArticleStatus {
   Verifying = 1, // 审核中
@@ -21,6 +21,9 @@ export enum ArticleStatus {
 export class Article extends BasicEntity {
   @Column('int')
   status: ArticleStatus;
+
+  @Column('varchar', { nullable: false })
+  title: string;
 
   @Column('text', { nullable: true, default: null })
   content: string;

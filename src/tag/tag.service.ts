@@ -8,12 +8,12 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class TagService {
   constructor(
-    @InjectRepository(Tag) private readonly tagRepository: Repository<Tag>,
+    @InjectRepository(Tag) private readonly tagRepository: Repository<Tag>
   ) {}
 
   async create(createTagDto: CreateTagDto) {
     return await this.tagRepository.save(
-      await this.tagRepository.create(createTagDto),
+      await this.tagRepository.create(createTagDto)
     );
   }
 
@@ -30,6 +30,9 @@ export class TagService {
   }
 
   async remove(id: number) {
-    return await this.tagRepository.delete(id);
+    const result = await this.tagRepository.delete(id);
+    if (result) {
+      return null;
+    }
   }
 }

@@ -35,7 +35,56 @@ SwaggerModule.setup('api', app, document);
 
 
 5. 使用拦截器统一处理返回值
-```javascript
 
+```typescript
+
+@Injectable()
+export class InterceptorResponseInterceptor<T>
+  implements NestInterceptor<T, Response<T>> {
+  intercept(
+    context: ExecutionContext,
+    next: CallHandler<T>,
+  ): Observable<Response<T>> {
+    return next.handle().pipe(
+      map((data) => {
+        const ctx = context.switchToHttp();
+        const response = ctx.getResponse();
+        const request = ctx.getRequest();
+
+        const statusCode = response.statusCode;
+        const url = request.originalUrl;
+        const res = {
+          statusCode,
+          url,
+          msg: '操作成功',
+          success: true,
+          data,
+        };
+        return res;
+      }),
+    );
+  }
+}
 ```
 
+6. 统一异常处理
+```typescript
+
+@Catch()
+export class HttpExceptionFilter<T> implements ExceptionFilter {
+  catch(exception, host: ArgumentsHost) {
+    const ctx = host.switchToHttp();
+    const response = ctx.getResponse();
+    const request = ctx.getRequest();
+    const status = exception.getStatus();
+    response.status(status).json({
+      statusCode: status,
+      message: exception.response,
+      date: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+      path: request.url,
+      body: request.body,
+    });
+  }
+}
+
+```
