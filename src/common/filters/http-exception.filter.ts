@@ -1,19 +1,21 @@
-import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
-import dayjs from 'dayjs';
+import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common'
+import dayjs from 'dayjs'
 
 @Catch()
 export class HttpExceptionFilter<T> implements ExceptionFilter {
   catch(exception, host: ArgumentsHost) {
-    const ctx = host.switchToHttp();
-    const response = ctx.getResponse();
-    const request = ctx.getRequest();
-    const status = exception.getStatus();
+    const ctx = host.switchToHttp()
+    const response = ctx.getResponse()
+    const request = ctx.getRequest()
+    // const status = exception.getStatus()
+    console.log('exception: ', exception)
+    const status = 200
     response.status(status).json({
       statusCode: status,
       message: exception.response,
       date: dayjs().format('YYYY-MM-DD HH:mm:ss'),
       path: request.url,
-      body: Object.keys(request.body).length ? request.body : request.params,
-    });
+      body: Object.keys(request.body).length ? request.body : request.params
+    })
   }
 }

@@ -1,11 +1,11 @@
-import { HttpException } from '@nestjs/common';
+import { HttpException } from '@nestjs/common'
 
 export enum exceptionCode {
-  paramError = 555,
+  paramError = 555
 }
 
 export class BusinessException extends HttpException {
   constructor(response: string | Record<string, any>, status: exceptionCode) {
-    super(response, status);
+    super(response, status)
   }
 }

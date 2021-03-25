@@ -1,43 +1,43 @@
-import { Category } from '../../category/entities/category.entity';
-import { Tag } from '../../tag/entities/tag.entity';
+import { Category } from '../../category/entities/category.entity'
+import { Tag } from '../../tag/entities/tag.entity'
 import {
   Column,
   Entity,
   JoinTable,
   ManyToMany,
   ManyToOne,
-  OneToMany,
-} from 'typeorm';
-import { Comment } from '../../comment/entities/comment.entity';
-import { BasicEntity } from '../../common/entities/basic.entity';
+  OneToMany
+} from 'typeorm'
+import { Comment } from '../../comment/entities/comment.entity'
+import { BasicEntity } from '../../common/entities/basic.entity'
 
 export enum ArticleStatus {
   Verifying = 1, // 审核中
   VerifySuccess = 2, // 审核通过
-  VerifyFail = 3, // 审核未通过
+  VerifyFail = 3 // 审核未通过
 }
 
 @Entity()
 export class Article extends BasicEntity {
   @Column('int')
-  status: ArticleStatus;
+  status: ArticleStatus
 
   @Column('varchar', { nullable: false })
-  title: string;
+  title: string
 
   @Column('text', { nullable: true, default: null })
-  content: string;
+  content: string
 
   @Column('varchar', { length: 500, nullable: true, default: null })
-  summary: string;
+  summary: string
 
   @Column('varchar', {
     name: 'cover_url',
     length: 500,
     nullable: true,
-    default: null,
+    default: null
   })
-  coverURL: string;
+  coverURL: string
 
   // @ManyToOne(() => Category)
   // //  @JoinTable()
@@ -55,7 +55,7 @@ export class Article extends BasicEntity {
   // categories: Category;
 
   @ManyToOne(() => Category, (category) => category.article)
-  category: Category;
+  category: Category
 
   @ManyToMany(() => Tag)
   @JoinTable()
@@ -70,8 +70,8 @@ export class Article extends BasicEntity {
   //     referencedColumnName: 'id',
   //   },
   // })
-  tags: Tag[];
+  tags: Tag[]
 
   @OneToMany(() => Comment, (comment) => comment.article)
-  comments: Comment[];
+  comments: Comment[]
 }

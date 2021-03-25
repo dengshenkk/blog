@@ -1,13 +1,13 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { ArticleModule } from './article/article.module';
-import { TagModule } from './tag/tag.module';
-import { CategoryModule } from './category/category.module';
-import { CommentModule } from './comment/comment.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { Module } from '@nestjs/common'
+import { AppController } from './app.controller'
+import { AppService } from './app.service'
+import { ArticleModule } from './article/article.module'
+import { TagModule } from './tag/tag.module'
+import { CategoryModule } from './category/category.module'
+import { CommentModule } from './comment/comment.module'
+import { TypeOrmModule } from '@nestjs/typeorm'
 // 实体驼峰转下划线
-import { SnakeNamingStrategy } from 'typeorm-naming-strategies/snake-naming.strategy';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies/snake-naming.strategy'
 
 @Module({
   imports: [
@@ -24,14 +24,14 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies/snake-naming.stra
       logger: 'advanced-console',
       logging: 'all',
       // 命名策略 实体驼峰转下划线
-      namingStrategy: new SnakeNamingStrategy(),
+      namingStrategy: new SnakeNamingStrategy()
     }),
     ArticleModule,
     TagModule,
     CategoryModule,
-    CommentModule,
+    CommentModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService]
 })
 export class AppModule {}
