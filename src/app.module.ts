@@ -8,16 +8,17 @@ import { CommentModule } from './comment/comment.module'
 import { TypeOrmModule } from '@nestjs/typeorm'
 // 实体驼峰转下划线
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies/snake-naming.strategy'
+import { UserModule } from './user/user.module'
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'haijinsha.top',
-      port: 3306,
+      port: 33061,
       username: 'root',
       password: '123456',
-      database: 'nest-dev',
+      database: 'nest_dev',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
       autoLoadEntities: true,
@@ -29,7 +30,8 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies/snake-naming.stra
     ArticleModule,
     TagModule,
     CategoryModule,
-    CommentModule
+    CommentModule,
+    UserModule
   ],
   controllers: [AppController],
   providers: [AppService]
