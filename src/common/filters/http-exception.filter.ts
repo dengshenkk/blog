@@ -8,11 +8,11 @@ export class HttpExceptionFilter<T> implements ExceptionFilter {
     const response = ctx.getResponse()
     const request = ctx.getRequest()
     // const status = exception.getStatus()
-    console.log('exception: ', exception)
+    console.log('exception: ', exception.message)
     const status = 200
     response.status(status).json({
       statusCode: status,
-      message: exception.response,
+      message: '操作失败: ' + exception.message,
       date: dayjs().format('YYYY-MM-DD HH:mm:ss'),
       path: request.url,
       body: Object.keys(request.body).length ? request.body : request.params

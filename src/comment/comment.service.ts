@@ -33,4 +33,21 @@ export class CommentService {
   async remove(id: number) {
     return await this.commentRepository.delete(id)
   }
+
+  async findPage(page: Page) {
+    const query = this.commentRepository
+      .createQueryBuilder('comment')
+      .skip((page.pageNum - 1) * page.pageSize)
+      .take(page.pageSize)
+    const [data, count] = await query.getManyAndCount()
+    return {
+      count,
+      data
+    }
+  }
+}
+
+interface Page {
+  pageNum: number
+  pageSize: number
 }

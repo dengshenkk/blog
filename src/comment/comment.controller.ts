@@ -1,11 +1,12 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
+  Controller,
+  Delete,
+  Get,
   Param,
-  Delete
+  Patch,
+  Post,
+  Query
 } from '@nestjs/common'
 import { CommentService } from './comment.service'
 import { CreateCommentDto } from './dto/create-comment.dto'
@@ -25,6 +26,11 @@ export class CommentController {
   @Get()
   findAll() {
     return this.commentService.findAll()
+  }
+
+  @Get('/page')
+  findPage(@Query('pageNum') pageNum: number, @Query('pageSize') pageSize) {
+    return this.commentService.findPage({ pageNum, pageSize })
   }
 
   @Get(':id')
